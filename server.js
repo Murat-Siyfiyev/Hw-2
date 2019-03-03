@@ -118,7 +118,7 @@ router.route('/movies')
         }
     });
 });
-router.all('*', function(req, res) {res.json({error: 'Your HTTP method does not work or exist. Please try again!‍'}); });
+router.all('*', function(req, res) {res.json({error: "HTTP Address does not exist please try again!"}); });
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 
