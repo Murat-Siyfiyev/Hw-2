@@ -71,6 +71,20 @@ router.post('/signup', function(req, res) {
     }
 });
 
+router.route('/movies')
+    .get(function (req, res) {
+        res.json({status: 200, msg: "Getting movies from the server", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+    });
+
+router.route('/movies')
+    .post(function (req, res) {
+        res.json({status: 200, msg: "Movie has been saved!", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+    });
+router.route('/movies')
+    .put(authJwtController.isAuthenticated, function(req, res) {
+        res.json({status: 200, msg: "Movies Have been updated", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+    });
+
 router.post('/signin', function(req, res) {
 
         var user = db.findOne(req.body.username);
@@ -89,6 +103,20 @@ router.post('/signin', function(req, res) {
                 res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
             }
         };
+router.route('/movies')
+    .delete(function (req, res) {
+        var user = db.findOne(req.body.username);
+        if(!user) {
+            res.status(401).send({success: false, msg: "Authentication has failed. User was not found"});
+        } else {
+            if(req.body.password === user.password){
+                res.json({status: 200, message: "Movie has been Deleted", headers: req.headers, query: req.query,env: process.env.UNIQUE_KEY});
+            }
+            else{
+                res.status(401).send({success: false, msg: 'Authentication failed. Wrong password. Please try agian.'});
+            }
+        }
+    });
 });
 
 app.use('/', router);
